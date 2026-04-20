@@ -1,3 +1,7 @@
+## 0.1.1
+
+- Fix: avatar preview no longer oscillates when switching avatar source while auto-save is in flight
+
 ## 0.1.0
 
 - Initial release

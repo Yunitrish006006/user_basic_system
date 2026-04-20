@@ -1,6 +1,6 @@
 name: user_basic_system
 description: Reusable profile management and DM chat system with abstract service interfaces for Flutter apps.
-version: 0.1.0
+version: 0.1.1
 homepage: https://github.com/Yunitrish006006/user_basic_system
 repository: https://github.com/Yunitrish006006/user_basic_system
 

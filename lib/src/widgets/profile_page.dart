@@ -51,6 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String? _pendingAvatarMimeType;
   String? _pendingAvatarFileName;
   bool _isUploadingAvatar = false;
+  bool _isSaving = false;
   Timer? _autoSaveTimer;
 
   ProfileStrings get _s => widget.strings;
@@ -85,6 +86,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void _onServiceChanged() {
     if (!mounted) return;
+    if (_isSaving) return; // save 進行中，忽略 service 通知以防震盪
     final profile = widget.service.profile;
     setState(() {
       if (profile == null) {
@@ -251,6 +253,7 @@ class _ProfilePageState extends State<ProfilePage> {
   // ── save ───────────────────────────────────────────────────────────────────
 
   Future<void> _save({bool silent = false}) async {
+    _isSaving = true;
     try {
       if (_avatarSource == 'upload' && _pendingAvatarBytes != null) {
         await _uploadAvatarImage(showSuccess: false);
@@ -265,6 +268,8 @@ class _ProfilePageState extends State<ProfilePage> {
     } catch (e) {
       if (!mounted) return;
       _showSnackBar(e.toString());
+    } finally {
+      _isSaving = false;
     }
   }
 
