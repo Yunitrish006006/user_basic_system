@@ -4,13 +4,19 @@ import 'package:user_basic_system/user_social_system.dart' as social;
 import 'package:user_basic_system/user_basic_system.dart' as legacy;
 
 void main() {
-  test('profile and DM contracts are exported by their own facades', () {
-    expect(account.UserProfile.toString(), 'UserProfile');
-    expect(account.ProfileService.toString(), 'ProfileService');
-    expect(social.ChatMessage.toString(), 'ChatMessage');
-    expect(social.DmService.toString(), 'DmService');
-    // Existing apps can continue importing the legacy facade.
-    expect(legacy.ProfileService, account.ProfileService);
-    expect(legacy.DmService, social.DmService);
+  test('account, social, and legacy facades export identical contracts', () {
+    final Type profile = account.UserProfile;
+    final Type accountService = account.ProfileService;
+    final Type chatMessage = social.ChatMessage;
+    final Type dmService = social.DmService;
+    final Type oldAccountService = legacy.ProfileService;
+    final Type oldDmService = legacy.DmService;
+
+    expect(profile.toString(), 'UserProfile');
+    expect(accountService.toString(), 'ProfileService');
+    expect(chatMessage.toString(), 'ChatMessage');
+    expect(dmService.toString(), 'DmService');
+    expect(oldAccountService, accountService);
+    expect(oldDmService, dmService);
   });
 }
