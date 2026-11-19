@@ -1,21 +1,20 @@
-# Account / Social extraction boundary
+# Account and social boundaries
 
-This repository currently bundles profile and direct messaging features.
+The compatibility package forwards the combined legacy library, the two
+feature facades and the existing source import paths. All aliases reference
+the same Dart types.
 
-New public facades provide an incremental, backwards-compatible migration:
-- `package:user_basic_system/user_account_core.dart`: profile model, service contract, locale strings, profile UI.
-- `package:user_basic_system/user_social_system.dart`: chat model, DM service contract, locale strings, chat UI.
-- `package:user_basic_system/user_basic_system.dart`: unchanged legacy combined export.
+- `user_account_core` owns reusable profile types, the profile-service port,
+  profile widgets, and the compatibility exception.
+- `user_social_system` owns reusable DM types, the DM-service port and the DM
+  widgets. The compatibility social facade continues to export the same
+  exception type.
+- `user_notification_system` owns interpreting push and Web notification
+  intents. The Taiwan Brawl app owns auth, registration, device permissions
+  and navigation. The backend owns FCM delivery and durable message polling.
 
-These are **facades in one repository**, not two independent published packages.
-The final split into `user_account_core` and `user_social_system` repositories
-requires separate repos, versioned dependencies, migrated imports, and tests.
-Existing apps should continue using the combined export until the individual
-package APIs stabilize.
-
-The account service owns authentication and session state. Social modules
-receive a host-provided user identity and DmService; they must not own
-credentials or log-in state. Notification transport is a separate concern.
-
-Acceptance: combined export remains compatible; no behavioral changes to
-profile or DM; independent facades compile; all host-app regressions pass.
+Taiwan Brawl injects auth, local storage, and API implementations. Friend and
+game invite flows, session tokens, and database contracts remain host-owned.
+Feature-branch consumers use immutable Git references. The published 0.1.1
+package has the original bundled implementation; the Git-only compatibility
+branch requires Dart 3.11.1 or later.
