@@ -19,7 +19,7 @@ dependencies:
   user_social_system:
     git:
       url: https://github.com/Yunitrish006006/user_social_system.git
-      ref: ba52f61e807c2947e0a78b59132418c9e890c5e1
+      ref: d3d8e60857d5f92fdb55ae8236ea0533fa54033b
 
 dev_dependencies:
   flutter_test:
